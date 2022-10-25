@@ -114,6 +114,7 @@ button {
     width: 100%;
     max-width: 500px;
     /* border: 1px solid blue; */
+    border-radius: 5px;
 }
 
 .numpad button {
@@ -125,6 +126,7 @@ button {
     color: var(--numpad-button-font-color);
     background-color: var(--numpad-button-background-color);
     font-family: inherit;
+    border-radius: 5px;
 }
 
 .numpad button:active {
