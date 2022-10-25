@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Iceberg&display=swap');
+
+:root {
+    --title-font: 'IBM Plex Mono', monospace;
+    --title-font-size: 13pt;
+    --title-color: white;
+    --body-font: 'Roboto', sans-serif;
+    --body-background-color: #535977;
+    --output-screen-font: 'Iceberg', monospace;
+    --output-screen-background-color: #a4956f;
+    --output-font-color: #485046;
+    --output-current-operand-font-size: 10vw;
+    --output-other-operand-font-size: 4vw;
+    --numpad-background-color: #e6e9f8;
+    --numpad-button-background-color: #e6e9f8;
+    --numpad-button-background-color-active: rgb(255, 255, 255);
+    --numpad-button-font-color: #3f3f3f;
+    --numpad-button-border-line-width: 0.5px;
+    --numpad-button-border-color: #cccfd9;
+    --numpad-button-border-radius: 5px;
+    --numpad-button-font-size: 16pt;
+    --numpad-button-drop-shadow-x: 0px;
+    --numpad-button-drop-shadow-y: 4px;
+    --numpad-button-drop-shadow-blur: 4px;
+    --numpad-button-drop-shadow-size: 0px;
+    --numpad-equals-background-color: #005fba;
+    --numpad-equals-background-color-active: #4598e6;
+    --numpad-equals-font-color: white;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: var(--body-font);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #353535;
+}
+
+main {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--body-background-color);
+    gap: 40px;
+    padding: 50px;
+}
+
+button {
+    text-align: center;
+    vertical-align: middle;
+    aspect-ratio: 1/1;
+}
+
+.header {
+    width: 100%;
+    max-width: 500px;
+}
+
+.title {
+    font-size: var(--title-font-size);
+}
+
+.header > p {
+    font-family: var(--title-font);
+    color: var(--title-color);
+}
+
+.output-screen {
+    background-color: var(--output-screen-background-color);
+    color: var(--output-font-color);
+    text-align: right;
+    font-family: var(--output-screen-font);
+    padding: 5px 10px;
+}
+
+.operand-operator-area {
+    font-size: min(var(--output-other-operand-font-size), 18pt);
+}
+
+.operand-operator-area p {
+    display: inline-block;
+}
+
+.current-operand-area {
+    font-size: var(--output-current-operand-font-size);
+    font-size: min(var(--output-current-operand-font-size), 36pt);
+}
+
+.current-operand-area p {
+    /* only show this when equals button is pressed; toggle off upon clicking any other button */
+    display: inline-block;
+}
+
+.numpad {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    user-select: none;
+    background-color: var(--numpad-background-color);
+    width: 100%;
+    max-width: 500px;
+    /* border: 1px solid blue; */
+}
+
+.numpad button {
+    /* box-shadow: var(--numpad-number-drop-shadow-x) var(--numpad-number-drop-shadow-y) var(--numpad-number-drop-shadow-blur) var(--numpad-number-drop-shadow-size) var(--numpad-number-border-color); */
+    /* border: var(--numpad-button-border-line-width) solid var(--numpad-button-border-color); */
+    /* border-radius: var(--numpad-button-border-radius); */
+    border: none;
+    font-size: var(--numpad-button-font-size);
+    color: var(--numpad-button-font-color);
+    background-color: var(--numpad-button-background-color);
+    font-family: inherit;
+}
+
+.numpad button:active {
+    background-color: var(--numpad-button-background-color-active);
+    transition: none;
+}
+
+#equals {
+    background-color: var(--numpad-equals-background-color);
+    color: var(--numpad-equals-font-color);
+}
+
+#equals:active {
+    background-color: var(--numpad-equals-background-color-active);
+    transition: 5ms;
+}
+
+footer {
+    font-size: 1vw;
+    color: #ccc;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+footer a, footer a:active, footer a:visited{
+    text-decoration: none;
+    color: white;
+}
