@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+     <main>
+        <div class="header">
+            <p>Kalkulator</p>
+            <div class="output-screen">
+                <div class="operand-operator-area">
+                    <p id="other-operand"></p>
+                    <p id="operator"></p>
+                </div>
+                <div class="current-operand-area">
+                    <p id="current-operand"></p>
+                </div>
+            </div>
+        </div>
+        <!-- input area -->
+        <div class="input-area">
+            <div class="left-buttons">
+                <div class="clear-backspace">
+                    <button id="clear">C</button>
+                    <button id="backspace">⌫</button>
+                </div>
+                <div class="numpad">
+                    <button class="number" id="seven">7</button>
+                    <button class="number" id="eight">8</button>
+                    <button class="number" id="nine">9</button>
+                    <button class="number" id="four">4</button>
+                    <button class="number" id="five">5</button>
+                    <button class="number" id="six">6</button>
+                    <button class="number" id="one">1</button>
+                    <button class="number" id="two">2</button>
+                    <button class="number" id="three">3</button>
+                    <button class="number" id="set-sign">+/-</button>
+                    <button class="number" id="zero">0</button>
+                    <button class="number" id="decimal-dot">.</button>
+                </div>
+            </div>
+            <div class="right-buttons">
+                <button class="operator" id="modulo">%</button>
+                <button class="operator" id="divide">÷</button>
+                <button class="operator" id="multiply">x</button>
+                <button class="operator" id="subtract">-</button>
+                <button class="operator" id="add">+</button>
+                <button class="operator" id="equals">=</button>
+            </div>
+        </div>
+        
+     </main>
+</body>
+</html>
