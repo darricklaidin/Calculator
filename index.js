@@ -98,13 +98,24 @@ numpadButtonElements.forEach((button) => {
                 }
             }            
             // Check if button is an operator -> yes
+            if (event.target.classList.contains('operator') 
+                && buttonValue !== '=' 
+                && buttonValue !== '+/-') {
                 // Set current state to waitOperator
+                currentState = 'waitOperator';
                 // Update otherOperand variable
+                otherOperand = String(Number(currentOperand));
                 // Update operator variable
+                operator = buttonValue;
                 // Move current operand to other operand in display
+                otherOperandElement.textContent = otherOperand;
                 // Update operator in display
+                operatorElement.textContent = operator;
                 // Set current operand to 0
+                currentOperand = "0";
                 // Set current operand display to 0
+                currentOperandElement.textContent = currentOperand;
+            }
             // Check if button is backspace -> yes
             else if (buttonValue === '⌫') {
                 // Check if current operand is 0 -> no
@@ -127,15 +138,17 @@ numpadButtonElements.forEach((button) => {
             }
             // Check if button is plus/minus -> yes
             else if (buttonValue === "+/-") {
-                // Prepend/Remove "-" to the current operand
-                if (currentOperand.indexOf('-') === -1) {
-                    currentOperand = "-" + currentOperand;
-                    // Update current operand display
-                    currentOperandElement.textContent = currentOperand;
-                } else {
-                    currentOperand = currentOperand.slice(1);
-                    // Update current operand display
-                    currentOperandElement.textContent = currentOperand;
+                if (currentOperand !== "0") {
+                    // Prepend/Remove "-" to the current operand
+                    if (currentOperand.indexOf('-') === -1) {
+                        currentOperand = "-" + currentOperand;
+                        // Update current operand display
+                        currentOperandElement.textContent = currentOperand;
+                    } else {
+                        currentOperand = currentOperand.slice(1);
+                        // Update current operand display
+                        currentOperandElement.textContent = currentOperand;
+                    }
                 }
             }
             // Check if button is equals -> yes
