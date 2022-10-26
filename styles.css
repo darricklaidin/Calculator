@@ -252,4 +252,8 @@ footer a, footer a:active, footer a:visited{
         font-size: 15px ;
     }
     
+    footer a:hover {
+        color: #4598e6;
+    }
+    
 }
