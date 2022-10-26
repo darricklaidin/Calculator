@@ -15,6 +15,7 @@
     --output-other-operand-font-size: 4vw;
     --numpad-background-color: #454b68;
     --numpad-button-background-color: #8688ad;
+    --numpad-button-background-color-hover: #b09bbd;
     --numpad-button-background-color-active: #a6a7c2;
     --numpad-button-font-color: rgb(241, 241, 241);
     --numpad-button-border-line-width: 0.5px;
@@ -22,7 +23,8 @@
     --numpad-button-border-radius: 5px;
     --numpad-button-font-size: 5.5vw;
     --numpad-equals-background-color: #005fba;
-    --numpad-equals-background-color-active: #4598e6;
+    --numpad-equals-background-color-hover: #4598e6;
+    --numpad-equals-background-color-active: #82bdf5;
     --numpad-equals-font-color: white;
 }
 
@@ -80,6 +82,7 @@ button {
 }
 
 .title {
+    /* display: none; */
     font-size: var(--title-font-size);
 }
 
@@ -136,6 +139,12 @@ button {
     border-radius: 5px;
 }
 
+.numpad button:hover {
+    cursor: pointer;
+    background-color: var(--numpad-button-background-color-hover);
+    transition: 250ms;
+}
+
 .numpad button:active {
     background-color: var(--numpad-button-background-color-active);
     transition: none;
@@ -146,9 +155,14 @@ button {
     color: var(--numpad-equals-font-color);
 }
 
+#equals:hover {
+    background-color: var(--numpad-equals-background-color-hover);
+    transition: 250ms;
+}
+
 #equals:active {
     background-color: var(--numpad-equals-background-color-active);
-    transition: 5ms;
+    transition: none;
 }
 
 footer {
