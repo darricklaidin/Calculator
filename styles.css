@@ -2,62 +2,71 @@
 @import url('https://fonts.googleapis.com/css2?family=Iceberg&display=swap');
 
 :root {
+    --section-background-color: #353535;
     --title-font: 'IBM Plex Mono', monospace;
-    --title-font-size: 13pt;
+    --title-font-size: 4vw;
     --title-color: white;
-    --body-font: 'Roboto', sans-serif;
-    --body-background-color: #535977;
+    --section-font: 'JetBrains Mono', sans-serif;
+    --main-background-color: #535977;
     --output-screen-font: 'Iceberg', monospace;
     --output-screen-background-color: #a4956f;
     --output-font-color: #485046;
-    --output-current-operand-font-size: 10vw;
+    --output-current-operand-font-size: 11.5vw;
     --output-other-operand-font-size: 4vw;
-    --numpad-background-color: #e6e9f8;
-    --numpad-button-background-color: #e6e9f8;
-    --numpad-button-background-color-active: rgb(255, 255, 255);
-    --numpad-button-font-color: #3f3f3f;
+    --numpad-background-color: #454b68;
+    --numpad-button-background-color: #8688ad;
+    --numpad-button-background-color-active: #a6a7c2;
+    --numpad-button-font-color: rgb(241, 241, 241);
     --numpad-button-border-line-width: 0.5px;
     --numpad-button-border-color: #cccfd9;
     --numpad-button-border-radius: 5px;
-    --numpad-button-font-size: 16pt;
-    --numpad-button-drop-shadow-x: 0px;
-    --numpad-button-drop-shadow-y: 4px;
-    --numpad-button-drop-shadow-blur: 4px;
-    --numpad-button-drop-shadow-size: 0px;
+    --numpad-button-font-size: 5.5vw;
     --numpad-equals-background-color: #005fba;
     --numpad-equals-background-color-active: #4598e6;
     --numpad-equals-font-color: white;
 }
 
-* {
+*, *::before, *::after{
     margin: 0;
     padding: 0;
+    box-sizing: inherit;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
+html {
     box-sizing: border-box;
-    font-family: var(--body-font);
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #353535;
+    background-color: var(--section-background-color);
+    width: 100vw;
+    min-height: 100vh;
+    font-family: var(--section-font);
 }
 
-main {
+section {
     width: 100%;
-    max-width: 500px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--body-background-color);
-    gap: 40px;
-    padding: 50px;
+}
+
+main {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-background-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+
+    width: 100vw;
+    
+    height: 155vw;
+    
+    padding: 5%;
+    gap: 5vw;
 }
 
 button {
@@ -68,7 +77,6 @@ button {
 
 .header {
     width: 100%;
-    max-width: 500px;
 }
 
 .title {
@@ -85,11 +93,14 @@ button {
     color: var(--output-font-color);
     text-align: right;
     font-family: var(--output-screen-font);
-    padding: 5px 10px;
+    padding: 5px;
+    border-radius: 5px;
+    
+    box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, .5);
 }
 
 .operand-operator-area {
-    font-size: min(var(--output-other-operand-font-size), 18pt);
+    font-size: var(--output-other-operand-font-size);
 }
 
 .operand-operator-area p {
@@ -98,29 +109,25 @@ button {
 
 .current-operand-area {
     font-size: var(--output-current-operand-font-size);
-    font-size: min(var(--output-current-operand-font-size), 36pt);
 }
 
 .current-operand-area p {
-    /* only show this when equals button is pressed; toggle off upon clicking any other button */
     display: inline-block;
 }
 
 .numpad {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     user-select: none;
     background-color: var(--numpad-background-color);
     width: 100%;
-    max-width: 500px;
-    /* border: 1px solid blue; */
     border-radius: 5px;
+    gap: 5px;
+    
+    box-shadow: 0px 1px 10px 0 rgba(0, 0, 0, .5);
 }
 
 .numpad button {
-    /* box-shadow: var(--numpad-number-drop-shadow-x) var(--numpad-number-drop-shadow-y) var(--numpad-number-drop-shadow-blur) var(--numpad-number-drop-shadow-size) var(--numpad-number-border-color); */
-    /* border: var(--numpad-button-border-line-width) solid var(--numpad-button-border-color); */
-    /* border-radius: var(--numpad-button-border-radius); */
     border: none;
     font-size: var(--numpad-button-font-size);
     color: var(--numpad-button-font-color);
@@ -145,14 +152,48 @@ button {
 }
 
 footer {
-    font-size: 1vw;
     color: #ccc;
-    position: fixed;
+    font-size: 10px;
+    text-align: center;
+    width: 100%;
+    position: static;
     bottom: 0;
-    left: 0;
+    margin-top: 20px;
 }
 
 footer a, footer a:active, footer a:visited{
+    display: inline;
     text-decoration: none;
     color: white;
+}
+
+@media (min-width: 350px) {
+    main {
+        background-color: var(--main-background-color);
+        width: 350px;
+        height: 540px;
+        gap: 15px;
+        padding: 18px;
+    }
+    
+    .title {
+        font-size: 15px;
+    }
+    
+    .operand-operator-area {
+        font-size: 15px;
+    }
+    
+    .current-operand-area {
+        font-size: 40px;
+    }
+    
+    .numpad button {
+        font-size: 1rem;
+    }
+    
+    footer {
+        font-size: 15px ;
+    }
+    
 }
