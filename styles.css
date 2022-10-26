@@ -3,29 +3,43 @@
 
 :root {
     --section-background-color: #353535;
+    --section-font: 'JetBrains Mono', sans-serif;
+    
     --title-font: 'IBM Plex Mono', monospace;
     --title-font-size: 4vw;
     --title-color: white;
-    --section-font: 'JetBrains Mono', sans-serif;
+    
     --main-background-color: #535977;
+    
     --output-screen-font: 'Iceberg', monospace;
     --output-screen-background-color: #a4956f;
     --output-font-color: #485046;
     --output-current-operand-font-size: 11.5vw;
     --output-other-operand-font-size: 4vw;
+    
     --numpad-background-color: #454b68;
+    
     --numpad-button-background-color: #8688ad;
     --numpad-button-background-color-hover: #b09bbd;
     --numpad-button-background-color-active: #a6a7c2;
+    
     --numpad-button-font-color: rgb(241, 241, 241);
     --numpad-button-border-line-width: 0.5px;
     --numpad-button-border-color: #cccfd9;
     --numpad-button-border-radius: 5px;
     --numpad-button-font-size: 5.5vw;
+    
+    --clear-background-color: #c98b19;
+    --clear-background-color-hover: #f2b24a;
+    --clear-background-color-active: #f0cc69;
+
+    --backspace-background-color: #c54666;
+    --backspace-background-color-hover: #e04a6f;
+    --backspace-background-color-active: #f07a9f;
+
     --numpad-equals-background-color: #005fba;
     --numpad-equals-background-color-hover: #4598e6;
     --numpad-equals-background-color-active: #82bdf5;
-    --numpad-equals-font-color: white;
 }
 
 *, *::before, *::after{
@@ -82,8 +96,9 @@ button {
 }
 
 .title {
-    /* display: none; */
+    display: none;
     font-size: var(--title-font-size);
+    font-style: italic;
 }
 
 .header > p {
@@ -150,9 +165,22 @@ button {
     transition: none;
 }
 
+#clear {
+    background-color: var(--clear-background-color);
+}
+
+#clear:hover {
+    background-color: var(--clear-background-color-hover);
+    transition: 250ms;
+}
+
+#clear:active {
+    background-color: var(--clear-background-color-active);
+    transition: none;
+}
+
 #equals {
     background-color: var(--numpad-equals-background-color);
-    color: var(--numpad-equals-font-color);
 }
 
 #equals:hover {
@@ -162,6 +190,20 @@ button {
 
 #equals:active {
     background-color: var(--numpad-equals-background-color-active);
+    transition: none;
+}
+
+#backspace {
+    background-color: var(--backspace-background-color);
+}
+
+#backspace:hover {
+    background-color: var(--backspace-background-color-hover);
+    transition: 250ms;
+}
+
+#backspace:active {
+    background-color: var(--backspace-background-color-active);
     transition: none;
 }
 
