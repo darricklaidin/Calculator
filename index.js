@@ -33,7 +33,7 @@ let operatorElement = document.getElementById('operator');
 // operator
 let currentOperand = "0";
 let otherOperand = "0";
-let operator;
+let operator = "";
 
 // store current state (only can be one state at a time)
 // waitFirstOperand, waitOperator, waitSecondOperand, showResult
@@ -44,8 +44,8 @@ let clear = () => {
     currentOperand = "0";
     // Set other operand to 0
     otherOperand = "0";
-    // Set operator to null
-    operator = null;
+    // Set operator to ""
+    operator = "";
     // Set current state to waitFirstOperand
     currentState = 'waitFirstOperand';
     // Set current operand display to 0
@@ -79,6 +79,31 @@ let performOperatorOn = (operator, operand) => {
     return operand;
 };
 
+let toggleNegation = (operand, operandElement) => {
+    if (operand !== "0") {
+        // Prepend/Remove "-" to the operand
+        if (operand.indexOf('-') === -1) {
+            operand = "-" + operand;
+        } else {
+            operand = operand.slice(1);
+        }
+        // Update current operand display
+        operandElement.textContent = operand;
+    }
+    return operand;
+};
+
+let addDecimalDot = (buttonValue, operand, operandElement) => {
+    // Check if current operand does not contain a decimal dot -> yes
+    if (operand.indexOf('.') === -1) {
+        // Update current operand
+        operand += buttonValue;
+        // Update current operand display
+        operandElement.textContent = operand;
+    }
+    return operand
+};
+
 let waitOperand = (event, buttonValue) => {
     // Check if button is a number -> yes
     if (buttonValue >= 0 && buttonValue <= 9) {
@@ -95,13 +120,7 @@ let waitOperand = (event, buttonValue) => {
     }
     // Check if button is a decimal dot -> yes
     if (buttonValue === '.') {
-        // Check if current operand does not contain a decimal dot -> yes
-        if (currentOperand.indexOf('.') === -1) {
-            // Update current operand
-            currentOperand += buttonValue;
-            // Update current operand display
-            currentOperandElement.textContent = currentOperand;
-        }
+        currentOperand = addDecimalDot(buttonValue, currentOperand, currentOperandElement);
     }            
     // Check if button is an operator -> yes
     if (event.target.classList.contains('operator') 
@@ -113,18 +132,15 @@ let waitOperand = (event, buttonValue) => {
             // Update otherOperand variable with performing previous operator on currentOperand if current state is waitSecondOperand
             otherOperand = performOperatorOn(operator, otherOperand);
         }
-        // Check if other operand area is going to overflow -> yes
-        if (otherOperand.length >= 38) {
-            otherOperand = "Error";
-            // set to error state
-            currentState = 'error';
-            return;
-        }
         // Update operator variable
         operator = buttonValue;
         // Set current state to waitOperator
         currentState = 'waitOperator';
         // Move current operand to other operand in display
+        // Check if other operand area is going to overflow -> yes
+        if (otherOperand.length >= 38) {
+            otherOperandElement.textContent = otherOperand.slice(0, 38);
+        }
         otherOperandElement.textContent = otherOperand;
         // Update operator in display
         operatorElement.textContent = operator;
@@ -155,32 +171,27 @@ let waitOperand = (event, buttonValue) => {
     }
     // Check if button is plus/minus -> yes
     else if (buttonValue === "+/-") {
-        if (currentOperand !== "0") {
-            // Prepend/Remove "-" to the current operand
-            if (currentOperand.indexOf('-') === -1) {
-                currentOperand = "-" + currentOperand;
-                // Update current operand display
-                currentOperandElement.textContent = currentOperand;
-            } else {
-                currentOperand = currentOperand.slice(1);
-                // Update current operand display
-                currentOperandElement.textContent = currentOperand;
-            }
-        }
+        currentOperand = toggleNegation(currentOperand, currentOperandElement);
     }
     // Check if button is equals -> yes
     else if (buttonValue === '=') {
         // Update equals result symbol display
         equalsResultSymbolElement.textContent = '=';
+        otherOperandElement.textContent = currentOperand;
         if (currentState === 'waitFirstOperand') {
             // Update current operand
-            currentOperand = Number(currentOperand);
+            currentOperand = String(Number(currentOperand));
         } else if (currentState === 'waitSecondOperand') {
             // Update current operand by performing operation on other operand and current operand
             currentOperand = performOperatorOn(operator, currentOperand);
+            
         }
         // Update current operand display
-        currentOperandElement.textContent = currentOperand;
+        if (String(Math.abs(currentOperand)).length >= 12) {
+            currentOperandElement.textContent = currentOperand.slice(0, 12);
+        } else {
+            currentOperandElement.textContent = currentOperand;
+        }
         // Set current state to showResult
         currentState = 'showResult';
     }
@@ -207,7 +218,6 @@ numpadButtonElements.forEach((button) => {
     button.addEventListener('click', (event) => {
         // Get value of button
         let buttonValue = event.target.textContent;
-        console.log("Button clicked:", buttonValue);
         
         if (currentState === 'error') {
             clear();
@@ -229,38 +239,61 @@ numpadButtonElements.forEach((button) => {
         }
                 
         // Check if current state is showResult -> yes
-            // Check if button is a number -> yes
-                // Hide equals result symbol
-                // Set current state to waitFirstOperand
-                // Execute waitFirstOperand function
-            // Check if button is a decimal dot -> yes
-                // Hide equals result symbol
-                // Set current state to waitFirstOperand
-                // Execute waitFirstOperand function
-            // Check if button is an operator -> yes
-                // Hide equals result symbol
-                // Set other operand to result (current operand)
-                // Update other operand display
-                // Update operator display
-                // Set operator to button value
-                // Set current state to waitOperator
-                // Execute waitOperator function
-            // Check if button is equals -> yes 
-                // Do nothing
-            // Check if button is backspace -> yes
-                // Do nothing
-            // Check if button is plus/minus -> yes
-                // Multiply current operand by -1
-                // Update current operand
-                // Update current operand display
-                
+        if (currentState === "showResult") {
+            if (buttonValue === '=') return;
             
+            // Hide equals result symbol
+            equalsResultSymbolElement.textContent = '';
+            
+            if (event.target.classList.contains('operator') 
+                && buttonValue !== '=' 
+                && buttonValue !== '+/-') {
+                // Update other operand
+                otherOperand = currentOperand;
+                // Update other operand display
+                otherOperandElement.textContent = otherOperand;
+                // Update operator variable
+                operator = buttonValue;
+                // Update operator display
+                operatorElement.textContent = operator;
+                // Set current operand to "0"
+                currentOperand = "0";
+                // Update current operand display
+                currentOperandElement.textContent = currentOperand;
+                // Set current state to waitOperator
+                currentState = 'waitOperator';
+            }
+            else if (buttonValue === "⌫") {
+                clear();
+            }
+            else if (buttonValue === "+/-") {
+                equalsResultSymbolElement.textContent = '=';
+                currentOperand = toggleNegation(currentOperand, currentOperandElement);
+            }
+            else if (buttonValue === '.') {
+                currentOperand = addDecimalDot(buttonValue, currentOperand, currentOperandElement);
+                // Set other operand to "0"
+                otherOperand = '';
+                // Clear other operand display
+                otherOperandElement.textContent = otherOperand;
+                // Clear operator
+                operator = '';
+                // Clear operator display
+                operatorElement.textContent = operator;
+                // Set current state to waitFirstOperand
+                currentState = 'waitFirstOperand';
+            }
+            else if (buttonValue >= 0 && buttonValue <= 9) {
+                clear();
+                currentOperand = buttonValue;
+                currentOperandElement.textContent = currentOperand;
+            }
+            
+            // Check if button is a number -> yes
+                // If currently showing result, clicking a number will reset all operands and operators and start a new calculation
+            
+        }         
     });
 });
 
-// Showing result:
-    // Equals symbol will be displayed in current operator area
-    // If currently showing result, clicking a number will reset all operands and operators and start a new calculation
-    // If currently showing result, clicking on backspace will perform same function as clear
-
-// Optional: If operand is now 0 and is in waitSecondOperand, clicking on backspace will remove the current operator and bring the other operand to the current operand
+// TODO: Configure to work with keyboard
