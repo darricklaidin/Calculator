@@ -84,11 +84,13 @@ let toggleNegation = (operand, operandElement) => {
         // Prepend/Remove "-" to the operand
         if (operand.indexOf('-') === -1) {
             operand = "-" + operand;
+            // Update current operand display
+            operandElement.textContent = operand.slice(0, 13);
         } else {
             operand = operand.slice(1);
+            operandElement.textContent = operand.slice(0, 12);
         }
-        // Update current operand display
-        operandElement.textContent = operand;
+        
     }
     return operand;
 };
@@ -187,11 +189,7 @@ let waitOperand = (event, buttonValue) => {
             
         }
         // Update current operand display
-        if (String(Math.abs(currentOperand)).length >= 12) {
-            currentOperandElement.textContent = currentOperand.slice(0, 12);
-        } else {
-            currentOperandElement.textContent = currentOperand;
-        }
+        currentOperandElement.textContent = currentOperand.slice(0, 12);
         // Set current state to showResult
         currentState = 'showResult';
     }
@@ -288,10 +286,6 @@ numpadButtonElements.forEach((button) => {
                 currentOperand = buttonValue;
                 currentOperandElement.textContent = currentOperand;
             }
-            
-            // Check if button is a number -> yes
-                // If currently showing result, clicking a number will reset all operands and operators and start a new calculation
-            
         }         
     });
 });
