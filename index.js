@@ -237,7 +237,6 @@ let runCalculator = (event) => {
             }
             passThroughKeyPress = true;
         }
-        console.log(passThroughKeyPress);
     }
     else if (event.type === 'click') {
         buttonValue = event.target.textContent;
@@ -319,16 +318,166 @@ let runCalculator = (event) => {
     }  
 };
 
+let toggleButtonActive = (event) => {
+    if (event.key === 'Enter' || event.key === '=') {
+        if (event.type === 'keydown') {
+            equalsButtonElement.classList.add('equals-button-activated');
+        } else if (event.type === 'keyup') {
+            equalsButtonElement.classList.remove('equals-button-activated');
+        }
+    } else if (event.key === 'Escape' || event.key === 'c') {
+        if (event.type === 'keydown') {
+            clearButtonElement.classList.add('clear-button-activated');
+        } else if (event.type === 'keyup') {
+            clearButtonElement.classList.remove('clear-button-activated');
+        }
+    } else if (event.key === 'Backspace' || event.key === 'Delete') {
+        if (event.type === 'keydown') {
+            backspaceButtonElement.classList.add('backspace-button-activated');
+        } else if (event.type === 'keyup') {
+            backspaceButtonElement.classList.remove('backspace-button-activated');
+        }
+    } else {
+        switch (event.key) {
+            case '0':
+                if (event.type === 'keydown') {
+                    zeroButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    zeroButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '1':
+                if (event.type === 'keydown') {
+                    oneButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    oneButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '2':
+                if (event.type === 'keydown') {
+                    twoButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    twoButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '3':
+                if (event.type === 'keydown') {
+                    threeButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    threeButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '4':
+                if (event.type === 'keydown') {
+                    fourButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    fourButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '5':
+                if (event.type === 'keydown') {
+                    fiveButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    fiveButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '6':
+                if (event.type === 'keydown') {
+                    sixButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    sixButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '7':
+                if (event.type === 'keydown') {
+                    sevenButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    sevenButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '8':
+                if (event.type === 'keydown') {
+                    eightButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    eightButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+                    
+            case '9':
+                if (event.type === 'keydown') {
+                    nineButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    nineButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '.':
+                if (event.type === 'keydown') {
+                    decimalButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    decimalButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '+':
+                if (event.type === 'keydown') {
+                    addButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    addButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '-':
+                if (event.type === 'keydown') {
+                    subtractButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    subtractButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '*':
+                if (event.type === 'keydown') {
+                    multiplyButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    multiplyButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '/':
+                if (event.type === 'keydown') {
+                    divideButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    divideButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case '%':
+                if (event.type === 'keydown') {
+                    moduloButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    moduloButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            case 'n':
+                if (event.type === 'keydown') {
+                    setSignButtonElement.classList.add('numpad-button-activated');
+                } else if (event.type === 'keyup') {
+                    setSignButtonElement.classList.remove('numpad-button-activated');
+                }
+                break;
+            default:
+                break;
+        }
+        
+    }
+};
+
 onkeydown = (event) => {
-    // 
+    toggleButtonActive(event);
     runCalculator(event);
 };
 
+onkeyup = (event) => {
+    toggleButtonActive(event);
+};
+    
 // Add event listener to all numpad buttons
 numpadButtonElements.forEach((button) => {
     button.addEventListener('click', (event) => {
         runCalculator(event);       
     });
 });
-
-// TODO: Configure to work with keyboard

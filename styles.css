@@ -161,8 +161,8 @@ button {
     transition: 250ms;
 }
 
-.numpad button:active {
-    background-color: var(--numpad-button-background-color-active);
+.numpad button:active, .numpad-button-activated {
+    background-color: var(--numpad-button-background-color-active) !important;
     transition: none;
 }
 
@@ -175,8 +175,8 @@ button {
     transition: 250ms;
 }
 
-#clear:active {
-    background-color: var(--clear-background-color-active);
+#clear:active, .clear-button-activated {
+    background-color: var(--clear-background-color-active) !important;
     transition: none;
 }
 
@@ -189,8 +189,8 @@ button {
     transition: 250ms;
 }
 
-#equals:active {
-    background-color: var(--numpad-equals-background-color-active);
+#equals:active , .equals-button-activated {
+    background-color: var(--numpad-equals-background-color-active) !important;
     transition: none;
 }
 
@@ -203,8 +203,8 @@ button {
     transition: 250ms;
 }
 
-#backspace:active {
-    background-color: var(--backspace-background-color-active);
+#backspace:active, .backspace-button-activated {
+    background-color: var(--backspace-background-color-active) !important;
     transition: none;
 }
 
