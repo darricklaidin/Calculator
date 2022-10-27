@@ -106,7 +106,7 @@ let addDecimalDot = (buttonValue, operand, operandElement) => {
     return operand
 };
 
-let waitOperand = (event, buttonValue) => {
+let waitOperand = (event, buttonValue, passThroughKeyPress) => {
     // Check if button is a number -> yes
     if (buttonValue >= 0 && buttonValue <= 9) {
         // Add value to current operand if length of current operand is less than 12
@@ -125,7 +125,7 @@ let waitOperand = (event, buttonValue) => {
         currentOperand = addDecimalDot(buttonValue, currentOperand, currentOperandElement);
     }            
     // Check if button is an operator -> yes
-    if (event.target.classList.contains('operator') 
+    if ((event.target.classList.contains('operator') || passThroughKeyPress)
         && buttonValue !== '=' 
         && buttonValue !== '+/-') {
         if (currentState === 'waitFirstOperand') {
@@ -195,98 +195,139 @@ let waitOperand = (event, buttonValue) => {
     }
 };
 
-let waitOperator = (event, buttonValue) => {
+let waitOperator = (event, buttonValue, passThroughKeyPress) => {
     // Check if button is an operator -> yes
-    if (event.target.classList.contains('operator') 
+    if ((event.target.classList.contains('operator') || passThroughKeyPress) 
         && buttonValue !== '=' 
         && buttonValue !== '+/-') {
-        // Update operator variable
-        operator = buttonValue;
-        // Update operator display
-        operatorElement.textContent = operator;
+            // Update operator variable
+            operator = buttonValue;
+            // Update operator display
+            operatorElement.textContent = operator;
     } else {
         // Set current state to waitSecondOperand
         currentState = 'waitSecondOperand';
-        waitOperand(event, buttonValue);
+        waitOperand(event, buttonValue, passThroughKeyPress);
     }
+};
+
+let runCalculator = (event) => {
+    let passThroughKeyPress = false;
+    // Get value of button
+    let buttonValue = null;
+    if (event.type === 'keydown') {
+        buttonValue = event.key;  // 1, 2, 3, ..., +, -, =, n, enter, backspace, escape
+        if (buttonValue === 'Enter') {
+            buttonValue = '=';
+        } else if (buttonValue === 'Escape' || buttonValue === 'c') {
+            buttonValue = 'C';
+        }
+        else if (buttonValue === 'n') {
+            buttonValue = '+/-';
+        }
+        else if (buttonValue === 'Backspace' || buttonValue === 'Delete') {
+            buttonValue = '⌫';
+        }
+        else if (buttonValue === '-' || buttonValue === '+' || buttonValue === '*' || buttonValue === '/' || buttonValue === '%') {
+            if (buttonValue === '*') {
+                buttonValue = 'x';
+            }
+            else if (buttonValue === '/') {
+                buttonValue = '÷';
+            }
+            passThroughKeyPress = true;
+        }
+        console.log(passThroughKeyPress);
+    }
+    else if (event.type === 'click') {
+        buttonValue = event.target.textContent;
+    }
+    
+    if (currentState === 'error') {
+        clear();
+        return;
+    }
+    
+    // Check if button is clear button -> yes
+    if (buttonValue === 'C') {
+        clear();
+        return;
+    }
+    
+    // Check if current state is waitFirstOperand -> yes
+    if (currentState === 'waitFirstOperand' || currentState === 'waitSecondOperand') {
+        waitOperand(event, buttonValue, passThroughKeyPress);
+    }
+    
+    // Check if current state is waitOperator -> yes
+    if (currentState === "waitOperator") {
+        waitOperator(event, buttonValue, passThroughKeyPress);
+    }
+            
+    // Check if current state is showResult -> yes
+    if (currentState === "showResult") {
+        if (buttonValue === '=') return;
+        
+        // Hide equals result symbol
+        equalsResultSymbolElement.textContent = '';
+        
+        if ((event.target.classList.contains('operator') || passThroughKeyPress) 
+            && buttonValue !== '=' 
+            && buttonValue !== '+/-') {
+            // Update other operand
+            otherOperand = currentOperand;
+            // Update other operand display
+            otherOperandElement.textContent = otherOperand;
+            // Update operator variable
+            operator = buttonValue;
+            // Update operator display
+            operatorElement.textContent = operator;
+            // Set current operand to "0"
+            currentOperand = "0";
+            // Update current operand display
+            currentOperandElement.textContent = currentOperand;
+            // Set current state to waitOperator
+            currentState = 'waitOperator';
+        }
+        else if (buttonValue === "⌫") {
+            clear();
+            return;
+        }
+        else if (buttonValue === "+/-") {
+            equalsResultSymbolElement.textContent = '=';
+            currentOperand = toggleNegation(currentOperand, currentOperandElement);
+        }
+        else if (buttonValue === '.') {
+            currentOperand = addDecimalDot(buttonValue, currentOperand, currentOperandElement);
+            // Set other operand to "0"
+            otherOperand = '';
+            // Clear other operand display
+            otherOperandElement.textContent = otherOperand;
+            // Clear operator
+            operator = '';
+            // Clear operator display
+            operatorElement.textContent = operator;
+            // Set current state to waitFirstOperand
+            currentState = 'waitFirstOperand';
+        }
+        else if (buttonValue >= 0 && buttonValue <= 9) {
+            clear();
+            currentOperand = buttonValue;
+            currentOperandElement.textContent = currentOperand;
+            return;
+        }
+    }  
+};
+
+onkeydown = (event) => {
+    // 
+    runCalculator(event);
 };
 
 // Add event listener to all numpad buttons
 numpadButtonElements.forEach((button) => {
     button.addEventListener('click', (event) => {
-        // Get value of button
-        let buttonValue = event.target.textContent;
-        
-        if (currentState === 'error') {
-            clear();
-        }
-        
-        // Check if button is clear button -> yes
-        if (buttonValue === 'C') {
-            clear();
-        }
-        
-        // Check if current state is waitFirstOperand -> yes
-        if (currentState === 'waitFirstOperand' || currentState === 'waitSecondOperand') {
-            waitOperand(event, buttonValue);
-        }
-        
-        // Check if current state is waitOperator -> yes
-        if (currentState === "waitOperator") {
-            waitOperator(event, buttonValue);
-        }
-                
-        // Check if current state is showResult -> yes
-        if (currentState === "showResult") {
-            if (buttonValue === '=') return;
-            
-            // Hide equals result symbol
-            equalsResultSymbolElement.textContent = '';
-            
-            if (event.target.classList.contains('operator') 
-                && buttonValue !== '=' 
-                && buttonValue !== '+/-') {
-                // Update other operand
-                otherOperand = currentOperand;
-                // Update other operand display
-                otherOperandElement.textContent = otherOperand;
-                // Update operator variable
-                operator = buttonValue;
-                // Update operator display
-                operatorElement.textContent = operator;
-                // Set current operand to "0"
-                currentOperand = "0";
-                // Update current operand display
-                currentOperandElement.textContent = currentOperand;
-                // Set current state to waitOperator
-                currentState = 'waitOperator';
-            }
-            else if (buttonValue === "⌫") {
-                clear();
-            }
-            else if (buttonValue === "+/-") {
-                equalsResultSymbolElement.textContent = '=';
-                currentOperand = toggleNegation(currentOperand, currentOperandElement);
-            }
-            else if (buttonValue === '.') {
-                currentOperand = addDecimalDot(buttonValue, currentOperand, currentOperandElement);
-                // Set other operand to "0"
-                otherOperand = '';
-                // Clear other operand display
-                otherOperandElement.textContent = otherOperand;
-                // Clear operator
-                operator = '';
-                // Clear operator display
-                operatorElement.textContent = operator;
-                // Set current state to waitFirstOperand
-                currentState = 'waitFirstOperand';
-            }
-            else if (buttonValue >= 0 && buttonValue <= 9) {
-                clear();
-                currentOperand = buttonValue;
-                currentOperandElement.textContent = currentOperand;
-            }
-        }         
+        runCalculator(event);       
     });
 });
 
